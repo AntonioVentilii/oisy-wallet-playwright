@@ -1,9 +1,7 @@
 <script lang="ts">
 	import AboutItem from '$lib/components/about/AboutItem.svelte';
 	import IconInfo from '$lib/components/icons/lucide/IconInfo.svelte';
-	import { TRACK_COUNT_OPEN_WHY_OISY } from '$lib/constants/analytics.contants';
-	import { ABOUT_WHY_OISY_BUTTON } from '$lib/constants/test-ids.constants';
-	import { trackEvent } from '$lib/services/analytics.services';
+	import { ABOUT_WHY_OISY_BUTTON } from '$lib/constants/test-ids.constants'
 	import { i18n } from '$lib/stores/i18n.store';
 	import { modalStore } from '$lib/stores/modal.store';
 	import { replaceOisyPlaceholders } from '$lib/utils/i18n.utils';
@@ -12,14 +10,12 @@
 		onIcOpenAboutModal?: () => void;
 		asMenuItem?: boolean;
 		asMenuItemCondensed?: boolean;
-		trackEventSource?: string;
 	}
 
 	let {
 		onIcOpenAboutModal,
 		asMenuItem = false,
 		asMenuItemCondensed = false,
-		trackEventSource
 	}: Props = $props();
 
 	const modalId = Symbol();
@@ -27,12 +23,6 @@
 	const openModal = () => {
 		onIcOpenAboutModal?.();
 		modalStore.openAboutWhyOisy(modalId);
-		trackEvent({
-			name: TRACK_COUNT_OPEN_WHY_OISY,
-			metadata: {
-				source: trackEventSource ?? ''
-			}
-		});
 	};
 </script>
 

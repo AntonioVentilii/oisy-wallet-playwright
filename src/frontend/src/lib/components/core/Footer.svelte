@@ -7,7 +7,6 @@
 	import TermsOfUseLink from '$lib/components/terms-of-use/TermsOfUseLink.svelte';
 	import ExternalLinkIcon from '$lib/components/ui/ExternalLinkIcon.svelte';
 	import { OISY_REPO_URL, OISY_TWITTER_URL } from '$lib/constants/oisy.constants';
-	import { aiAssistantConsoleOpen } from '$lib/derived/ai-assistant.derived';
 	import { authNotSignedIn, authSignedIn } from '$lib/derived/auth.derived';
 	import { i18n } from '$lib/stores/i18n.store';
 	import { replaceOisyPlaceholders } from '$lib/utils/i18n.utils';
@@ -26,8 +25,6 @@
 	class:md:inset-x-0={$authSignedIn}
 	class:pb-24={$authSignedIn}
 	class:sm:sticky={$authNotSignedIn}
-	class:z-1={!$aiAssistantConsoleOpen}
-	class:z-3={$aiAssistantConsoleOpen}
 >
 	<div
 		class="pointer-events-none flex w-full flex-col items-center justify-between sm:items-end md:flex-row md:gap-4"
