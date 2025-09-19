@@ -45,32 +45,32 @@ jobs:
         shell: bash
         continue-on-error: false
 
-  oisy-backend-wasm:
-    runs-on: ubuntu-24.04
-    if: ${{ github.event_name != 'pull_request' || needs.check-e2e-changes.outputs.e2e-or-config-changed == 'true' || contains(github.event.pull_request.labels.*.name, 'run-e2e-snapshots') }}
-    needs: check-e2e-changes
-    permissions:
-      contents: write
-      packages: write
-    steps:
-      - name: Checkout
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          persist-credentials: false
-
-      - name: Checkout for pull request
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: false
-
-      - name: Build oisy-backend WASM
-        uses: ./.github/actions/oisy-backend
-        with:
-          network: local
+#  oisy-backend-wasm:
+#    runs-on: ubuntu-24.04
+#    if: ${{ github.event_name != 'pull_request' || needs.check-e2e-changes.outputs.e2e-or-config-changed == 'true' || contains(github.event.pull_request.labels.*.name, 'run-e2e-snapshots') }}
+#    needs: check-e2e-changes
+#    permissions:
+#      contents: write
+#      packages: write
+#    steps:
+#      - name: Checkout
+#        if: ${{ github.event_name != 'pull_request' }}
+#        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+#        with:
+#          persist-credentials: false
+#
+#      - name: Checkout for pull request
+#        if: ${{ github.event_name == 'pull_request' }}
+#        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+#        with:
+#          repository: ${{ github.event.pull_request.head.repo.full_name }}
+#          ref: ${{ github.event.pull_request.head.ref }}
+#          persist-credentials: false
+#
+#      - name: Build oisy-backend WASM
+#        uses: ./.github/actions/oisy-backend
+#        with:
+#          network: local
 
   define-matrix:
     runs-on: ubuntu-24.04
@@ -128,11 +128,11 @@ jobs:
 #          token: ${{ steps.app-token.outputs.token }}
 #          persist-credentials: false
 
-      - name: Download WASM artifact
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
-        with:
-          name: backend.wasm.gz
-          path: out/
+#      - name: Download WASM artifact
+#        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+#        with:
+#          name: backend.wasm.gz
+#          path: out/
 
       - name: Prepare macOS
         if: runner.os == 'macOS'
