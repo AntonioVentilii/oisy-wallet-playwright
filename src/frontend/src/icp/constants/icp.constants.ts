@@ -1,1 +1,0 @@
-export const ICP_TRANSACTION_FEE_E8S = 10_000n;
