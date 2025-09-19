@@ -1,14 +1,10 @@
 import { HttpAgent } from '@dfinity/agent';
 import { Ed25519KeyIdentity } from '@dfinity/identity';
 import { Secp256k1KeyIdentity } from '@dfinity/identity-secp256k1';
-import { jsonReviver } from '@dfinity/utils';
 import { readdirSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import pemfile from 'pem-file';
-import { SNS_JSON_FILE } from './constants.mjs';
-
-export const SNSES = JSON.parse((await readFile(SNS_JSON_FILE)).toString(), jsonReviver);
 
 /**
  * Load identity from local PEM file

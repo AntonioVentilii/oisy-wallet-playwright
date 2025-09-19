@@ -59,7 +59,6 @@
 				asMenuItem
 				asMenuItemCondensed
 				onIcOpenAboutModal={hidePopover}
-				trackEventSource={USER_MENU_ROUTE}
 			/>
 
 			<DocumentationLink

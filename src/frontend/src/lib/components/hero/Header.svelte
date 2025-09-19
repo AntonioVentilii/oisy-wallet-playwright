@@ -1,13 +1,11 @@
 <script lang="ts">
 	import AboutWhyOisy from '$lib/components/about/AboutWhyOisy.svelte';
-	import AboutWhyOisyModal from '$lib/components/about/AboutWhyOisyModal.svelte';
 	import Menu from '$lib/components/core/Menu.svelte';
 	import OisyWalletLogoLink from '$lib/components/core/OisyWalletLogoLink.svelte';
 	import DocumentationLink from '$lib/components/navigation/DocumentationLink.svelte';
 	import ThemeSwitchButton from '$lib/components/ui/ThemeSwitchButton.svelte';
 	import { LANDING_PAGE_ROUTE } from '$lib/constants/analytics.contants';
 	import { authNotSignedIn, authSignedIn } from '$lib/derived/auth.derived';
-	import { modalAboutWhyOisy, modalWalletConnect } from '$lib/derived/modal.derived';
 
 	// Used to set z-index dynamically (https://github.com/dfinity/oisy-wallet/pull/8340)
 	let networkSwitcherOpen = $state(false);
@@ -23,8 +21,8 @@
 	class:1.5xl:z-10={$authSignedIn}
 	class:pb-10={$authNotSignedIn}
 	class:sm:pb-8={$authNotSignedIn}
-	class:z-3={!menuOpen && !networkSwitcherOpen && !helpMenuOpen && !$modalWalletConnect}
-	class:z-4={menuOpen || networkSwitcherOpen || helpMenuOpen || $modalWalletConnect}
+	class:z-3={!menuOpen && !networkSwitcherOpen && !helpMenuOpen}
+	class:z-4={menuOpen || networkSwitcherOpen || helpMenuOpen}
 >
 	<div class="pointer-events-auto">
 		<OisyWalletLogoLink />
@@ -32,14 +30,10 @@
 
 	<div class="pointer-events-auto flex justify-end gap-2 md:gap-5">
 		<div class="mr-2 flex justify-end gap-3 sm:gap-5 md:mr-0">
-			<AboutWhyOisy trackEventSource={LANDING_PAGE_ROUTE} />
+			<AboutWhyOisy />
 			<DocumentationLink shortTextOnMobile trackEventSource={LANDING_PAGE_ROUTE} />
 			<ThemeSwitchButton />
 			<Menu bind:visible={menuOpen} />
 		</div>
 	</div>
 </header>
-
-{#if $modalAboutWhyOisy}
-	<AboutWhyOisyModal />
-{/if}

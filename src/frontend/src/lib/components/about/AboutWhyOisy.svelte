@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AboutItem from '$lib/components/about/AboutItem.svelte';
 	import IconInfo from '$lib/components/icons/lucide/IconInfo.svelte';
-	import { ABOUT_WHY_OISY_BUTTON } from '$lib/constants/test-ids.constants'
+	import { ABOUT_WHY_OISY_BUTTON } from '$lib/constants/test-ids.constants';
 	import { i18n } from '$lib/stores/i18n.store';
 	import { modalStore } from '$lib/stores/modal.store';
 	import { replaceOisyPlaceholders } from '$lib/utils/i18n.utils';
@@ -12,11 +12,7 @@
 		asMenuItemCondensed?: boolean;
 	}
 
-	let {
-		onIcOpenAboutModal,
-		asMenuItem = false,
-		asMenuItemCondensed = false,
-	}: Props = $props();
+	let { onIcOpenAboutModal, asMenuItem = false, asMenuItemCondensed = false }: Props = $props();
 
 	const modalId = Symbol();
 

@@ -6,7 +6,6 @@
 	import Banner from '$lib/components/core/Banner.svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import ModalExitHandler from '$lib/components/ui/ModalExitHandler.svelte';
-	import { isLocked } from '$lib/derived/locked.derived';
 	import { displayAndCleanLogoutMsg } from '$lib/services/auth.services';
 	import { initAuthWorker } from '$lib/services/worker.auth.services';
 	import { authStore, type AuthStoreData } from '$lib/stores/auth.store';
@@ -43,10 +42,7 @@
 
 		try {
 			await authStore.sync();
-
 		} catch (err: unknown) {
-
-
 			toastsError({
 				msg: { text: $i18n.auth.error.unexpected_issue_with_syncing },
 				err
@@ -62,7 +58,7 @@
 
 	let worker = $state<
 		| {
-				syncAuthIdle: (args: { auth: AuthStoreData; locked?: boolean }) => void;
+				syncAuthIdle: (args: { auth: AuthStoreData }) => void;
 		  }
 		| undefined
 	>();
@@ -70,8 +66,8 @@
 	onMount(async () => (worker = await initAuthWorker()));
 
 	$effect(() => {
-		[worker, $authStore, $isLocked];
-		worker?.syncAuthIdle({ auth: $authStore, locked: $isLocked });
+		[worker, $authStore];
+		worker?.syncAuthIdle({ auth: $authStore });
 	});
 
 	/**

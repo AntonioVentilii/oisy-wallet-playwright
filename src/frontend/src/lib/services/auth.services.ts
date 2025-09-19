@@ -1,29 +1,4 @@
 import {
-	clearIdbBtcAddressMainnet,
-	clearIdbEthAddress,
-	clearIdbSolAddressMainnet,
-	deleteIdbBtcAddressMainnet,
-	deleteIdbEthAddress,
-	deleteIdbSolAddressMainnet
-} from '$lib/api/idb-addresses.api';
-import { clearIdbBalances, deleteIdbBalances } from '$lib/api/idb-balances.api';
-import {
-	clearIdbAllCustomTokens,
-	clearIdbEthTokensDeprecated,
-	deleteIdbAllCustomTokens,
-	deleteIdbEthTokensDeprecated
-} from '$lib/api/idb-tokens.api';
-import {
-	clearIdbBtcTransactions,
-	clearIdbEthTransactions,
-	clearIdbIcTransactions,
-	clearIdbSolTransactions,
-	deleteIdbBtcTransactions,
-	deleteIdbEthTransactions,
-	deleteIdbIcTransactions,
-	deleteIdbSolTransactions
-} from '$lib/api/idb-transactions.api';
-import {
 	TRACK_COUNT_SIGN_IN_SUCCESS,
 	TRACK_SIGN_IN_CANCELLED_COUNT,
 	TRACK_SIGN_IN_ERROR_COUNT,
@@ -42,7 +17,6 @@ import type { ToastMsg } from '$lib/types/toast';
 import { gotoReplaceRoot } from '$lib/utils/nav.utils';
 import { replaceHistory } from '$lib/utils/route.utils';
 import type { ToastLevel } from '@dfinity/gix-components';
-import type { Principal } from '@dfinity/principal';
 import { isNullish } from '@dfinity/utils';
 import { get } from 'svelte/store';
 
@@ -101,18 +75,16 @@ export const signIn = async (
 
 export const signOut = ({
 	resetUrl = false,
-	clearAllPrincipalsStorages = false,
 	source = ''
 }: {
 	resetUrl?: boolean;
-	clearAllPrincipalsStorages?: boolean;
 	source?: string;
 }): Promise<void> => {
 	trackSignOut({
 		name: TRACK_SIGN_OUT_SUCCESS,
 		meta: { reason: 'user', resetUrl, source }
 	});
-	return logout({ resetUrl, clearAllPrincipalsStorages });
+	return logout({ resetUrl });
 };
 
 export const errorSignOut = (text: string): Promise<void> => {
@@ -154,78 +126,9 @@ export const idleSignOut = (): Promise<void> => {
 		msg: {
 			text: get(i18n).auth.warning.session_expired,
 			level: 'warn'
-		},
-		clearCurrentPrincipalStorages: false
+		}
 	});
 };
-
-export const lockSession = ({ resetUrl = false }: { resetUrl?: boolean }): Promise<void> =>
-	logout({
-		resetUrl,
-		clearCurrentPrincipalStorages: false
-	});
-
-const emptyPrincipalIdbStore = async (deleteIdbStore: (principal: Principal) => Promise<void>) => {
-	const { identity } = get(authStore);
-
-	if (isNullish(identity)) {
-		return;
-	}
-
-	try {
-		await deleteIdbStore(identity.getPrincipal());
-	} catch (err: unknown) {
-		// We silence the error.
-		// Effective logout is more important here.
-		console.error(err);
-	}
-};
-
-const clearIdbStore = async (clearIdbStore: () => Promise<void>) => {
-	try {
-		await clearIdbStore();
-	} catch (err: unknown) {
-		// We silence the error.
-		// Effective logout is more important here.
-		console.error(err);
-	}
-};
-
-const deleteIdbStoreList = [
-	// Addresses
-	deleteIdbBtcAddressMainnet,
-	deleteIdbEthAddress,
-	deleteIdbSolAddressMainnet,
-	// Tokens
-	deleteIdbAllCustomTokens,
-	// TODO: UserToken is deprecated - remove this when the migration to CustomToken is complete
-	deleteIdbEthTokensDeprecated,
-	// Transactions
-	deleteIdbBtcTransactions,
-	deleteIdbEthTransactions,
-	deleteIdbIcTransactions,
-	deleteIdbSolTransactions,
-	// Balances
-	deleteIdbBalances
-];
-
-const clearIdbStoreList = [
-	// Addresses
-	clearIdbBtcAddressMainnet,
-	clearIdbEthAddress,
-	clearIdbSolAddressMainnet,
-	// Tokens
-	clearIdbAllCustomTokens,
-	// TODO: UserToken is deprecated - remove this when the migration to CustomToken is complete
-	clearIdbEthTokensDeprecated,
-	// Transactions
-	clearIdbBtcTransactions,
-	clearIdbEthTransactions,
-	clearIdbIcTransactions,
-	clearIdbSolTransactions,
-	// Balances
-	clearIdbBalances
-];
 
 // eslint-disable-next-line require-await
 const clearSessionStorage = async () => {
@@ -234,24 +137,13 @@ const clearSessionStorage = async () => {
 
 const logout = async ({
 	msg = undefined,
-	clearCurrentPrincipalStorages = true,
-	clearAllPrincipalsStorages = false,
 	resetUrl = false
 }: {
 	msg?: ToastMsg;
-	clearCurrentPrincipalStorages?: boolean;
-	clearAllPrincipalsStorages?: boolean;
 	resetUrl?: boolean;
 }) => {
 	// To mask not operational UI (a side effect of sometimes slow JS loading after window.reload because of service worker and no cache).
 	busy.start();
-
-	if (clearCurrentPrincipalStorages) {
-		await Promise.all(deleteIdbStoreList.map(emptyPrincipalIdbStore));
-	}
-	if (clearAllPrincipalsStorages) {
-		await Promise.all(clearIdbStoreList.map(clearIdbStore));
-	}
 
 	await clearSessionStorage();
 
