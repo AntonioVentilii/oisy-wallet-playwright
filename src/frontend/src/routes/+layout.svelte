@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { Spinner, Toasts, SystemThemeListener } from '@dfinity/gix-components';
+	import { Spinner, SystemThemeListener } from '@dfinity/gix-components';
 	import type { Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { browser } from '$app/environment';
-	import Banner from '$lib/components/core/Banner.svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import ModalExitHandler from '$lib/components/ui/ModalExitHandler.svelte';
 	import '$lib/styles/global.scss';
@@ -62,9 +61,7 @@
 {:then _}
 	{@render children()}
 {/await}
-
-<Banner />
-<Toasts maxVisible={3} />
+>
 <Busy />
 <ModalExitHandler />
 <SystemThemeListener />

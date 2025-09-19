@@ -6,8 +6,7 @@ const normalizePath = (s: string | null) =>
 	nonNullish(s) ? (s.endsWith('/') ? s : `${s}/`) : null;
 
 export const isTokensPath = (path: string | null) =>
-	normalizePath(path) === `${ROUTE_ID_GROUP_APP}${AppPath.Tokens}` ||
-	normalizePath(path) === `${ROUTE_ID_GROUP_APP}${AppPath.WalletConnect}`;
+	normalizePath(path) === `${ROUTE_ID_GROUP_APP}${AppPath.Tokens}`;
 
 // The page of the link for WalletConnect is the same as the page where we show the Tokens list
 export const isRouteTokens = ({ route: { id } }: Page): boolean => isTokensPath(id);

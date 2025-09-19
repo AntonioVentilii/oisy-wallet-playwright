@@ -1,26 +1,17 @@
 import {
-	LOADER_MODAL,
 	LOGIN_BUTTON,
 	MOBILE_NAVIGATION_MENU,
-	SIDEBAR_NAVIGATION_MENU,
-	TOKEN_BALANCE,
-	TOKEN_CARD,
-	TOKEN_GROUP
+	SIDEBAR_NAVIGATION_MENU
 } from '$lib/constants/test-ids.constants';
-import type { InternetIdentityPage } from '@dfinity/internet-identity-playwright';
 import { isNullish, nonNullish } from '@dfinity/utils';
 import { expect, type Locator, type Page, type ViewportSize } from '@playwright/test';
-import { HOMEPAGE_URL, LOCAL_REPLICA_URL } from '../constants/e2e.constants';
+import { HOMEPAGE_URL } from '../constants/e2e.constants';
 
 interface HomepageParams {
 	page: Page;
 	viewportSize?: ViewportSize;
 	isMobile?: boolean;
 }
-
-export type HomepageLoggedInParams = {
-	iiPage: InternetIdentityPage;
-} & HomepageParams;
 
 interface SelectorOperationParams {
 	selector: string;
@@ -119,18 +110,6 @@ abstract class Homepage {
 
 		await this.goto();
 		await this.waitForLoggedOutIndicator();
-	}
-
-	protected async waitForLoaderModal(options?: WaitForLocatorOptions): Promise<void> {
-		await this.waitForByTestId({ testId: LOADER_MODAL, options });
-	}
-
-	protected async waitForTokensInitialization(options?: WaitForLocatorOptions): Promise<void> {
-		await this.waitForByTestId({ testId: `${TOKEN_CARD}-ICP-ICP`, options });
-		await this.waitForByTestId({ testId: `${TOKEN_GROUP}-ETH`, options });
-
-		await this.waitForByTestId({ testId: `${TOKEN_BALANCE}-ICP-ICP`, options });
-		await this.waitForByTestId({ testId: `${TOKEN_BALANCE}-ETH`, options });
 	}
 
 	async waitForLoggedOutIndicator(): Promise<void> {
@@ -268,8 +247,6 @@ abstract class Homepage {
 		// }
 	}
 
-	abstract extendWaitForReady(): Promise<void>;
-
 	abstract waitForReady(): Promise<void>;
 }
 
@@ -278,59 +255,11 @@ export class HomepageLoggedOut extends Homepage {
 		super(params);
 	}
 
-	override async extendWaitForReady(): Promise<void> {}
-
 	/**
 	 * @override
 	 */
 	async waitForReady(): Promise<void> {
 		await this.waitForHomepageReady();
 		await this.waitForLoadState();
-	}
-}
-
-export class HomepageLoggedIn extends Homepage {
-	readonly #iiPage: InternetIdentityPage;
-
-	constructor({ iiPage, ...rest }: HomepageLoggedInParams) {
-		super(rest);
-
-		this.#iiPage = iiPage;
-	}
-
-	async waitForAuthentication(): Promise<void> {
-		await this.#iiPage.waitReady({
-			url: LOCAL_REPLICA_URL,
-			canisterId: process.env.E2E_LOCAL_INTERNET_IDENTITY_CANISTER_ID
-		});
-
-		await this.waitForHomepageReady();
-
-		await this.#iiPage.signInWithNewIdentity();
-	}
-
-	override async extendWaitForReady(): Promise<void> {
-		// Extend the waitForReady method in a subclass
-	}
-
-	/**
-	 * @override
-	 */
-	async waitForReady(): Promise<void> {
-		await this.waitForAuthentication();
-
-		await this.waitForLoaderModal();
-
-		await this.waitForLoaderModal({ state: 'hidden', timeout: 60000 });
-
-		await this.waitForContentReady();
-	}
-
-	async waitForContentReady(): Promise<void> {
-		await this.waitForTokensInitialization();
-
-		await this.waitForLoadState();
-
-		await this.extendWaitForReady();
 	}
 }

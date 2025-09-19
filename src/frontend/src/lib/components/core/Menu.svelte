@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { IconUser } from '@dfinity/gix-components';
 	import ButtonIcon from '$lib/components/ui/ButtonIcon.svelte';
-	import {
-		NAVIGATION_MENU_BUTTON,
-	} from '$lib/constants/test-ids.constants';
+	import { NAVIGATION_MENU_BUTTON } from '$lib/constants/test-ids.constants';
 	import { i18n } from '$lib/stores/i18n.store';
 
 	interface Props {
@@ -13,7 +11,6 @@
 	let { visible = $bindable(false) }: Props = $props();
 
 	let button = $state<HTMLButtonElement | undefined>();
-
 </script>
 
 <ButtonIcon
