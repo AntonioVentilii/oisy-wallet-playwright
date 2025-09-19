@@ -4,7 +4,6 @@
 	import OisyWalletLogoLink from '$lib/components/core/OisyWalletLogoLink.svelte';
 	import DocumentationLink from '$lib/components/navigation/DocumentationLink.svelte';
 	import ThemeSwitchButton from '$lib/components/ui/ThemeSwitchButton.svelte';
-	import { authNotSignedIn, authSignedIn } from '$lib/derived/auth.derived';
 
 	// Used to set z-index dynamically (https://github.com/dfinity/oisy-wallet/pull/8340)
 	let networkSwitcherOpen = $state(false);
@@ -13,13 +12,7 @@
 </script>
 
 <header
-	class="pointer-events-none relative flex w-full max-w-screen-2.5xl items-center justify-between gap-y-5 px-4 pt-6 md:px-8"
-	class:1.5xl:fixed={$authSignedIn}
-	class:1.5xl:inset-x-0={$authSignedIn}
-	class:1.5xl:top-0={$authSignedIn}
-	class:1.5xl:z-10={$authSignedIn}
-	class:pb-10={$authNotSignedIn}
-	class:sm:pb-8={$authNotSignedIn}
+	class="pointer-events-none pb-10 sm:pb-8 relative flex w-full max-w-screen-2.5xl items-center justify-between gap-y-5 px-4 pt-6 md:px-8"
 	class:z-3={!menuOpen && !networkSwitcherOpen && !helpMenuOpen}
 	class:z-4={menuOpen || networkSwitcherOpen || helpMenuOpen}
 >
