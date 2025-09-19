@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { isNullish } from '@dfinity/utils';
 	import type { Snippet } from 'svelte';
 	import IconExternalLink from '$lib/components/icons/IconExternalLink.svelte';
 

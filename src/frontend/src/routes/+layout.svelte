@@ -31,15 +31,11 @@
 		await Promise.allSettled([syncAuthStore(), i18n.init()]);
 	};
 
-	const syncAuthStore = async () => {
+	const syncAuthStore = () => {
 		if (!browser) {
 			return;
 		}
-
 	};
-
-
-
 
 	/**
 	 * UI loader
