@@ -1,7 +1,6 @@
 <script lang="ts">
 	import IconBook from '$lib/components/icons/IconBook.svelte';
 	import ExternalLink from '$lib/components/ui/ExternalLink.svelte';
-	import { TRACK_COUNT_OPEN_DOCUMENTATION } from '$lib/constants/analytics.contants';
 	import { OISY_DOCS_URL } from '$lib/constants/oisy.constants';
 	import { i18n } from '$lib/stores/i18n.store';
 	import { replaceOisyPlaceholders } from '$lib/utils/i18n.utils';
@@ -10,7 +9,6 @@
 		asMenuItem?: boolean;
 		asMenuItemCondensed?: boolean;
 		shortTextOnMobile?: boolean;
-		trackEventSource?: string;
 		testId?: string;
 	}
 
@@ -19,7 +17,6 @@
 		asMenuItem = false,
 		asMenuItemCondensed = false,
 		shortTextOnMobile = false,
-		trackEventSource,
 		testId
 	}: Props = $props();
 </script>
@@ -32,10 +29,6 @@
 	iconVisible={false}
 	styleClass={asMenuItem ? '' : 'font-bold'}
 	{testId}
-	trackEvent={{
-		name: TRACK_COUNT_OPEN_DOCUMENTATION,
-		metadata: { source: trackEventSource ?? '' }
-	}}
 >
 	{#if asMenuItem}
 		<IconBook />

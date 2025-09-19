@@ -15,6 +15,3 @@ export const parseBoolEnvVar = (value: OptionString, check = true): boolean => {
 	}
 	return JSON.parse(normalised ?? 'false') === check;
 };
-
-export const parseEnabledMainnetBoolEnvVar = (value: OptionString): boolean =>
-	parseBoolEnvVar(value, false);

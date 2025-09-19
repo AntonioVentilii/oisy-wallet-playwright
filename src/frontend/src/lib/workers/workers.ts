@@ -1,6 +1,3 @@
-import type { PostMessage, PostMessageDataRequest } from '$lib/types/post-message';
-import { onAuthMessage } from '$lib/workers/auth.worker';
-
-onmessage = async (msg: MessageEvent<PostMessage<PostMessageDataRequest>>) => {
-	await Promise.allSettled([onAuthMessage(msg)]);
+onmessage = async () => {
+	await Promise.allSettled([]);
 };

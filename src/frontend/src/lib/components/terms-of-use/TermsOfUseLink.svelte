@@ -1,8 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { TRACK_OPEN_AGREEMENT } from '$lib/constants/analytics.contants';
-	import { authSignedIn } from '$lib/derived/auth.derived';
-	import { trackEvent } from '$lib/services/analytics.services';
 	import { i18n } from '$lib/stores/i18n.store';
 	import { replaceOisyPlaceholders } from '$lib/utils/i18n.utils';
 
@@ -14,12 +11,7 @@
 
 	let { noUnderline = false, testId, icon }: Props = $props();
 
-	const handleClick = () => {
-		trackEvent({
-			name: TRACK_OPEN_AGREEMENT,
-			metadata: { type: 'terms-of-use', source: $authSignedIn ? 'app' : 'landing-page' }
-		});
-	};
+	const handleClick = () => {};
 </script>
 
 <a

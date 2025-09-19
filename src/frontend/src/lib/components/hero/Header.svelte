@@ -4,7 +4,6 @@
 	import OisyWalletLogoLink from '$lib/components/core/OisyWalletLogoLink.svelte';
 	import DocumentationLink from '$lib/components/navigation/DocumentationLink.svelte';
 	import ThemeSwitchButton from '$lib/components/ui/ThemeSwitchButton.svelte';
-	import { LANDING_PAGE_ROUTE } from '$lib/constants/analytics.contants';
 	import { authNotSignedIn, authSignedIn } from '$lib/derived/auth.derived';
 
 	// Used to set z-index dynamically (https://github.com/dfinity/oisy-wallet/pull/8340)
@@ -31,7 +30,7 @@
 	<div class="pointer-events-auto flex justify-end gap-2 md:gap-5">
 		<div class="mr-2 flex justify-end gap-3 sm:gap-5 md:mr-0">
 			<AboutWhyOisy />
-			<DocumentationLink shortTextOnMobile trackEventSource={LANDING_PAGE_ROUTE} />
+			<DocumentationLink shortTextOnMobile />
 			<ThemeSwitchButton />
 			<Menu bind:visible={menuOpen} />
 		</div>

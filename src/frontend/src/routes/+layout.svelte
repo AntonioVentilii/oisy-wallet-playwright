@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { Spinner, Toasts, SystemThemeListener } from '@dfinity/gix-components';
-	import { onMount, type Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import Banner from '$lib/components/core/Banner.svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import ModalExitHandler from '$lib/components/ui/ModalExitHandler.svelte';
-	import { displayAndCleanLogoutMsg } from '$lib/services/auth.services';
-	import { initAuthWorker } from '$lib/services/worker.auth.services';
-	import { authStore, type AuthStoreData } from '$lib/stores/auth.store';
 	import '$lib/styles/global.scss';
 	import { i18n } from '$lib/stores/i18n.store';
-	import { toastsError } from '$lib/stores/toasts.store';
 
 	interface Props {
 		children: Snippet;
@@ -40,35 +36,10 @@
 			return;
 		}
 
-		try {
-			await authStore.sync();
-		} catch (err: unknown) {
-			toastsError({
-				msg: { text: $i18n.auth.error.unexpected_issue_with_syncing },
-				err
-			});
-		}
-
-		displayAndCleanLogoutMsg();
 	};
 
-	/**
-	 * Workers
-	 */
 
-	let worker = $state<
-		| {
-				syncAuthIdle: (args: { auth: AuthStoreData }) => void;
-		  }
-		| undefined
-	>();
 
-	onMount(async () => (worker = await initAuthWorker()));
-
-	$effect(() => {
-		[worker, $authStore];
-		worker?.syncAuthIdle({ auth: $authStore });
-	});
 
 	/**
 	 * UI loader
@@ -78,11 +49,6 @@
 	// Once the authentication has been initialized we know most JavaScript resources has been loaded and therefore we can hide the spinner, the loading information.
 	$effect(() => {
 		if (!browser) {
-			return;
-		}
-
-		// We want to display a spinner until the authentication is loaded. This to avoid a glitch when either the landing page or effective content (sign-in / sign-out) is presented.
-		if ($authStore === undefined) {
 			return;
 		}
 

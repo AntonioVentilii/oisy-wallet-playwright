@@ -2,8 +2,6 @@
 	import { isNullish } from '@dfinity/utils';
 	import type { Snippet } from 'svelte';
 	import IconExternalLink from '$lib/components/icons/IconExternalLink.svelte';
-	import { trackEvent as trackEventServices } from '$lib/services/analytics.services';
-	import type { TrackEventParams } from '$lib/types/analytics';
 
 	interface Props {
 		children?: Snippet;
@@ -15,7 +13,6 @@
 		color?: 'blue' | 'inherit';
 		fullWidth?: boolean;
 		styleClass?: string;
-		trackEvent?: TrackEventParams;
 		testId?: string;
 		asMenuItem?: boolean;
 		asMenuItemCondensed?: boolean;
@@ -33,7 +30,6 @@
 		color = 'inherit',
 		fullWidth = false,
 		styleClass = '',
-		trackEvent,
 		testId,
 		asMenuItem = false,
 		asMenuItemCondensed = false,
@@ -41,13 +37,7 @@
 		iconAsLast = false
 	}: Props = $props();
 
-	const onclick = () => {
-		if (isNullish(trackEvent)) {
-			return;
-		}
-
-		trackEventServices(trackEvent);
-	};
+	const onclick = () => {};
 </script>
 
 <a

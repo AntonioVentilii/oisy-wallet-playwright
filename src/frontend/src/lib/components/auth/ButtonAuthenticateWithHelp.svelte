@@ -2,8 +2,6 @@
 	import SigningInHelpLink from '$lib/components/auth/SigningInHelpLink.svelte';
 	import ButtonAuthenticate from '$lib/components/ui/ButtonAuthenticate.svelte';
 	import { AUTH_SIGNING_IN_HELP_LINK } from '$lib/constants/test-ids.constants';
-	import { signIn } from '$lib/services/auth.services';
-	import { modalStore } from '$lib/stores/modal.store';
 
 	interface Props {
 		fullWidth?: boolean;
@@ -13,15 +11,7 @@
 
 	let { fullWidth = false, helpAlignment = 'inherit', needHelpLink = true }: Props = $props();
 
-	const modalId = Symbol();
-
-	const onclick = async () => {
-		const { success } = await signIn({});
-
-		if (success === 'cancelled' || success === 'error') {
-			modalStore.openAuthHelp({ id: modalId, data: false });
-		}
-	};
+	const onclick = async () => {};
 </script>
 
 <div

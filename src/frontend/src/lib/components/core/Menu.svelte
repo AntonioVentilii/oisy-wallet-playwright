@@ -7,7 +7,6 @@
 	import SupportLink from '$lib/components/navigation/SupportLink.svelte';
 	import ButtonIcon from '$lib/components/ui/ButtonIcon.svelte';
 	import Hr from '$lib/components/ui/Hr.svelte';
-	import { USER_MENU_ROUTE } from '$lib/constants/analytics.contants';
 	import {
 		NAVIGATION_MENU_BUTTON,
 		NAVIGATION_MENU,
@@ -55,17 +54,12 @@
 			</span>
 			<Hr />
 
-			<AboutWhyOisy
-				asMenuItem
-				asMenuItemCondensed
-				onIcOpenAboutModal={hidePopover}
-			/>
+			<AboutWhyOisy asMenuItem asMenuItemCondensed onIcOpenAboutModal={hidePopover} />
 
 			<DocumentationLink
 				asMenuItem
 				asMenuItemCondensed
 				testId={NAVIGATION_MENU_DOC_BUTTON}
-				trackEventSource={USER_MENU_ROUTE}
 			/>
 
 			<SupportLink asMenuItem asMenuItemCondensed testId={NAVIGATION_MENU_SUPPORT_BUTTON} />
