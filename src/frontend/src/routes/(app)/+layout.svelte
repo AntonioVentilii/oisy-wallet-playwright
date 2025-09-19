@@ -2,8 +2,8 @@
 	import { isNullish, nonNullish } from '@dfinity/utils';
 	import type { Snippet } from 'svelte';
 	import { onNavigate } from '$app/navigation';
-    import LandingPage from '$lib/components/auth/LandingPage.svelte';
 	import { page } from '$app/state';
+	import LandingPage from '$lib/components/auth/LandingPage.svelte';
 	import LockPage from '$lib/components/auth/LockPage.svelte';
 	import Footer from '$lib/components/core/Footer.svelte';
 	import Header from '$lib/components/hero/Header.svelte';
@@ -64,9 +64,9 @@
 		>
 			<Header />
 
-            <LandingPage />
+			<LandingPage />
 
-            {@render children()}
+			{@render children()}
 
 			<Footer />
 		</div>

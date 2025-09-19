@@ -29,7 +29,3 @@
 		</div>
 	</div>
 </div>
-
-{#if $modalAuthHelp && nonNullish($modalAuthHelpData)}
-	<AuthHelpModal usesIdentityHelp={$modalAuthHelpData} />
-{/if}

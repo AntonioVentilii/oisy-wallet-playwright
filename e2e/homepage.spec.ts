@@ -1,6 +1,6 @@
 import { testWithII } from '@dfinity/internet-identity-playwright';
 import { test } from '@playwright/test';
-import { HomepageLoggedIn, HomepageLoggedOut } from './utils/pages/homepage.page';
+import { HomepageLoggedOut } from './utils/pages/homepage.page';
 
 test('should display homepage in logged out state', async ({ page }) => {
 	const homepageLoggedOut = new HomepageLoggedOut({ page });
@@ -13,5 +13,3 @@ test('should display homepage in logged out state', async ({ page }) => {
 testWithII.beforeEach(async ({ page }) => {
 	await page.clock.install();
 });
-
-
