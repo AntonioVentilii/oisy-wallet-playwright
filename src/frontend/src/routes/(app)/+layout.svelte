@@ -1,23 +1,12 @@
 <script lang="ts">
 	import { isNullish, nonNullish } from '@dfinity/utils';
 	import type { Snippet } from 'svelte';
-	import { fade } from 'svelte/transition';
 	import { onNavigate } from '$app/navigation';
+    import LandingPage from '$lib/components/auth/LandingPage.svelte';
 	import { page } from '$app/state';
-	import AiAssistantConsoleButton from '$lib/components/ai-assistant/AiAssistantConsoleButton.svelte';
-	import AuthGuard from '$lib/components/auth/AuthGuard.svelte';
 	import LockPage from '$lib/components/auth/LockPage.svelte';
 	import Footer from '$lib/components/core/Footer.svelte';
-	import Modals from '$lib/components/core/Modals.svelte';
-	import DappsCarousel from '$lib/components/dapps/DappsCarousel.svelte';
 	import Header from '$lib/components/hero/Header.svelte';
-	import Hero from '$lib/components/hero/Hero.svelte';
-	import Loaders from '$lib/components/loaders/Loaders.svelte';
-	import MobileNavigationMenu from '$lib/components/navigation/MobileNavigationMenu.svelte';
-	import NavigationMenu from '$lib/components/navigation/NavigationMenu.svelte';
-	import NavigationMenuMainItems from '$lib/components/navigation/NavigationMenuMainItems.svelte';
-	import Responsive from '$lib/components/ui/Responsive.svelte';
-	import SplitPane from '$lib/components/ui/SplitPane.svelte';
 	import { authNotSignedIn, authSignedIn } from '$lib/derived/auth.derived';
 	import { isAuthLocked } from '$lib/derived/locked.derived';
 	import { routeCollection } from '$lib/derived/nav.derived';
@@ -75,41 +64,9 @@
 		>
 			<Header />
 
-			<AuthGuard>
-				<SplitPane>
-					{#snippet menu()}
-						<NavigationMenu>
-							{#if tokensRoute || nftsRoute}
-								<Responsive up="xl">
-									<div class="hidden xl:block" transition:fade>
-										<DappsCarousel />
-									</div>
-								</Responsive>
-							{/if}
-						</NavigationMenu>
-					{/snippet}
+            <LandingPage />
 
-					{#if showHero}
-						<Hero />
-					{/if}
-
-					<Loaders>
-						{@render children()}
-					</Loaders>
-				</SplitPane>
-
-				<Responsive down="md">
-					<div class="z-2 fixed bottom-16 right-2 block md:hidden">
-						<AiAssistantConsoleButton styleClass="mb-2" />
-					</div>
-				</Responsive>
-
-				<MobileNavigationMenu>
-					<NavigationMenuMainItems testIdPrefix="mobile" />
-				</MobileNavigationMenu>
-
-				<Modals />
-			</AuthGuard>
+            {@render children()}
 
 			<Footer />
 		</div>
