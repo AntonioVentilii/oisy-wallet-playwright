@@ -7,18 +7,16 @@
 
 	interface Props {
 		onIcOpenAboutModal?: () => void;
-		asMenuItem?: boolean;
-		asMenuItemCondensed?: boolean;
 	}
 
-	let { onIcOpenAboutModal, asMenuItem = false, asMenuItemCondensed = false }: Props = $props();
+	let { onIcOpenAboutModal}: Props = $props();
 
 	const openModal = () => {
 		onIcOpenAboutModal?.();
 	};
 </script>
 
-<AboutItem {asMenuItem} {asMenuItemCondensed} onClick={openModal} testId={ABOUT_WHY_OISY_BUTTON}>
+<AboutItem onClick={openModal} testId={ABOUT_WHY_OISY_BUTTON}>
 	{#snippet icon()}
 		<IconInfo />
 	{/snippet}
